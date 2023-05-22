@@ -29,12 +29,14 @@ public class Player : MonoBehaviour
     public void Movement(Vector3 direction)
     {
         Debug.DrawRay(transform.position, direction * 10, Color.cyan, 2); //draws above raycast
-        if (Physics.Raycast(transform.position, direction * 10, out RaycastHit hit, 10))//casts ray in 25 units of direction of input given
+        RaycastHit[] result = Physics.RaycastAll(transform.position, direction * 10, 10);
+        foreach(RaycastHit hit in result)//casts ray in 25 units of direction of input given
         {
-            if (hit.collider.gameObject.TryGetComponent<Node>(out Node rayhit))
+            if (hit.collider.TryGetComponent<Node>(out Node rayhit))
             {
                 Node TargetNode = rayhit;
                 MoveToNode(TargetNode);
+                break;
             }
         }
     }

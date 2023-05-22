@@ -83,6 +83,6 @@ public class GameManager : MonoBehaviour
     {
         player.enabled = false;
         yield return new WaitForSeconds(5);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        SceneManager.LoadScene("GameScene");
     }
 }

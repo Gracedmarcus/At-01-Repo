@@ -39,7 +39,7 @@ public class Enemy : MonoBehaviour
             if (currentNode != null) //current node exists
             {
                 //move until within distance of currentnode.
-                if (Vector3.Distance(transform.position, currentNode.transform.position) > 0.5f)
+                if (Vector3.Distance(transform.position, currentNode.transform.position) > 0.25f)
                 {
                     transform.Translate(currentDir * speed * Time.deltaTime);
                 }
@@ -49,6 +49,7 @@ public class Enemy : MonoBehaviour
                     {
                         Debug.Log("Depth Search Started");
                         searchNode = rootNode;
+                        targetFound = false;
                         toggle = true; //DFS on
                         StartCoroutine(DepthFirst());
                     }
@@ -106,7 +107,7 @@ public class Enemy : MonoBehaviour
                 unsearchedNodes.Push(node);
                 Debug.DrawLine(searchNode.transform.position, node.transform.position, Color.yellow, 1f);
                 Debug.Log("Checking " + searchNode + " to " + node + " adding.");
-                yield return new WaitForSeconds(1f);
+                yield return new WaitForSeconds(0.1f);
             }
             if ((searchNode == player.TargetNode) | (searchNode == player.CurrentNode)) //checks player
             {
@@ -123,23 +124,6 @@ public class Enemy : MonoBehaviour
                 searchNode = unsearchedNodes.Pop();
             }
         }
-        yield return new WaitForSeconds(2.0f);
-        Debug.Log("Coroutine paused");
+        Debug.Log("Coroutine finish");
     }
-
-    /*
-    varible for searching node
-    target found boolean
-    start loop
-    while target = false, loop
-     
-    access gamemanager nodes
-    add gamemanagerinstancenodes to list of unsearched nodes
-    check if root node is same as current node**
-    return as new destination if same node
-    add children of node to list
-    remove current node from list
-    assign current node to top of list
-    loop back to ** comment
-    */
 }
