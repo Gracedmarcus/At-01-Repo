@@ -2221,7 +2221,9 @@ MonoBehaviour:
   - {fileID: 836551682}
   - {fileID: 1573181747}
   - {fileID: 355137587}
+  Current: {fileID: 1215032672}
   player: {fileID: 1220234473}
+  gRaycaster: {fileID: 1157219709}
   buttonlist:
   - {fileID: 1757979234}
   - {fileID: 2028180356}
@@ -2230,8 +2232,6 @@ MonoBehaviour:
   bOn: {r: 1, g: 1, b: 1, a: 1}
   bOff: {r: 0, g: 0, b: 0, a: 0}
   bDflt: {r: 1, g: 1, b: 1, a: 1}
-  eventSystem: {fileID: 1215032672}
-  gRaycaster: {fileID: 1157219709}
 --- !u!4 &1588401710
 Transform:
   m_ObjectHideFlags: 0

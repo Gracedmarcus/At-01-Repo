@@ -6,23 +6,30 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 
-public class GameManager : MonoBehaviour, IPointerClickHandler
+public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
     //Stores all the nodes
-    [SerializeField] private Node[] nodes;    
+    [SerializeField] private Node[] nodes;
+    public EventSystem Current;
     //Stores reference to the player
     public Node[] Nodes { get { return nodes; } }
-    public Player Player { get { return Player; } }
+    public Player Player { get { return player; } }
+    [SerializeField] private Player player;
     [SerializeField] GraphicRaycaster gRaycaster;
+    PointerEventData eventData;
     public List<Image> buttonlist;
     [SerializeField] private Color bOn, bOff, bDflt;
 
-    public void OnPointerClick(PointerEventData mousePos)
+    public void Update()
     {
-        PointerEventData eventData = new PointerEventData(EventSystem.current);
-        eventData.position = Input.mousePosition;
-        Clicked(eventData);
+        if(Input.GetMouseButtonDown(0) && player.moving == false)
+        {
+            Debug.Log("Click detected");
+            eventData = new PointerEventData(Current);
+            eventData.position = Input.mousePosition;
+            Clicked(eventData);
+        }
     }
 
     public void Clicked(PointerEventData vector)
@@ -43,7 +50,8 @@ public class GameManager : MonoBehaviour, IPointerClickHandler
                     }
                 }
             }
-            Debug.Log(rayList.Count);
+            Debug.Log("ray" + rayList.Count);
+            rayList.Clear();
         }
     }
 
@@ -73,7 +81,7 @@ public class GameManager : MonoBehaviour, IPointerClickHandler
     /// <returns></returns>
     IEnumerator RestartGame()
     {
-        Player.enabled = false;
+        player.enabled = false;
         yield return new WaitForSeconds(5);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
