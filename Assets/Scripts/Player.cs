@@ -28,15 +28,19 @@ public class Player : MonoBehaviour
 
     public void Movement(Vector3 direction)
     {
-        Debug.DrawRay(transform.position, direction * 10, Color.cyan, 2); //draws above raycast
+        Debug.DrawRay(transform.position, direction * 10, Color.cyan, 2); //draws debug raycast
         RaycastHit[] result = Physics.RaycastAll(transform.position, direction * 10, 10);
-        foreach(RaycastHit hit in result)//casts ray in 25 units of direction of input given
+        foreach(RaycastHit hit in result)//checks through saved hit list
         {
             if (hit.collider.TryGetComponent<Node>(out Node rayhit))
             {
                 Node TargetNode = rayhit;
                 MoveToNode(TargetNode);
                 break;
+            }
+            else
+            {
+                Debug.Log("Nothing here");
             }
         }
     }
@@ -49,15 +53,19 @@ public class Player : MonoBehaviour
             {
                 case "Up":
                     Movement(transform.forward);
+                    ButtonScript.nameB = name;
                     break;
                 case "Down":
                     Movement(-transform.forward);
+                    ButtonScript.nameB = name;
                     break;
                 case "Left":
                     Movement(-transform.right);
+                    ButtonScript.nameB = name;
                     break;
                 case "Right":
                     Movement(transform.right);
+                    ButtonScript.nameB = name;
                     break;
             }
             Debug.Log("Pressed " + name);
@@ -65,7 +73,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
     void Update()
     {//Implement inputs and event-callbacks here
         if (moving == false)
@@ -102,13 +109,14 @@ public class Player : MonoBehaviour
                 }
                 else
                 {
-                    transform.Translate(currentDir * speed * Time.deltaTime); //movement?
+                    transform.Translate(currentDir * speed * Time.deltaTime); //movement towards set node
                 }
             }
             else
             {
                 moving = false;
                 CurrentNode = TargetNode;
+                //ButtonScript.ColliderCheck();
             }
         }
     }
