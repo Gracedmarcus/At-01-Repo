@@ -12,6 +12,8 @@ public class Player : MonoBehaviour
     [SerializeField] private float speed = 4;
     public bool moving = false;
     private Vector3 currentDir;
+    public GameManager gameManager;
+    private string nameDir;
 
     // Start is called before the first frame update
     void Start()
@@ -34,14 +36,16 @@ public class Player : MonoBehaviour
         {
             if (hit.collider.TryGetComponent<Node>(out Node rayhit))
             {
-                Node TargetNode = rayhit;
-                MoveToNode(TargetNode);
-                break;
-            }
-            else
-            {
-                Debug.Log("Nothing here");
-            }
+            Node TargetNode = rayhit;
+            gameManager.ButtonColor(nameDir, true);
+            MoveToNode(TargetNode);
+            moving = true;
+            }        
+        }
+        if (moving == false)
+        {
+            gameManager.ButtonColor(nameDir, false);
+            Debug.Log("Nothing here");
         }
     }
 
@@ -52,24 +56,24 @@ public class Player : MonoBehaviour
             switch (name)
             {
                 case "Up":
+                    nameDir = "Up";
                     Movement(transform.forward);
-                    ButtonScript.nameB = name;
                     break;
                 case "Down":
+                    nameDir = "Down";
                     Movement(-transform.forward);
-                    ButtonScript.nameB = name;
                     break;
                 case "Left":
+                    nameDir = "Left";
                     Movement(-transform.right);
-                    ButtonScript.nameB = name;
                     break;
                 case "Right":
+                    nameDir = "Right";
                     Movement(transform.right);
-                    ButtonScript.nameB = name;
                     break;
             }
             Debug.Log("Pressed " + name);
-            moving = true;
+            
         }
     }
 
@@ -116,11 +120,9 @@ public class Player : MonoBehaviour
             {
                 moving = false;
                 CurrentNode = TargetNode;
-                //ButtonScript.ColliderCheck();
             }
         }
     }
-    //Implement mouse interaction method here
 
     /// <summary>
     /// Sets the players target node and current directon to the specified node.

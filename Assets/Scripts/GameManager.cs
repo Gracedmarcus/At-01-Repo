@@ -19,11 +19,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] GraphicRaycaster gRaycaster;
     PointerEventData eventData;
     public List<Image> buttonlist;
-    [SerializeField] private Color bOn, bOff, bDflt;
+    public Color colour1, colour2, colour3;
 
     public void Update()
     {
-        if(Input.GetMouseButtonDown(0) && player.moving == false)
+        if (Input.GetMouseButtonDown(0) && player.moving == false)
         {
             Debug.Log("Click detected");
             eventData = new PointerEventData(Current);
@@ -36,7 +36,6 @@ public class GameManager : MonoBehaviour
     {
         List<RaycastResult> rayList = new List<RaycastResult>();
         gRaycaster.Raycast(vector, rayList);
-        Debug.Log("Raycast");
         if (rayList != null)
         {
             foreach (RaycastResult rayRet in rayList)
@@ -50,8 +49,57 @@ public class GameManager : MonoBehaviour
                     }
                 }
             }
-            Debug.Log("ray" + rayList.Count);
             rayList.Clear();
+        }
+    }
+
+    public void ButtonColor(string name, bool state)
+    {
+        if (state == false)
+        {
+            switch (name)
+            {
+                case "Up":
+                    buttonlist[0].color = colour2;
+                    break;
+                case "Down":
+                    buttonlist[1].color = colour2;
+                    break;
+                case "Left":
+                    buttonlist[2].color = colour2;
+                    break;
+                case "Right":
+                    buttonlist[3].color = colour2;
+                    break;
+            }
+        }
+        if (state == true)
+        {
+            switch (name)
+            {
+                case "Up":
+                    buttonlist[0].color = colour3;
+                    break;
+                case "Down":
+                    buttonlist[1].color = colour3;
+                    break;
+                case "Left":
+                    buttonlist[2].color = colour3;
+                    break;
+                case "Right":
+                    buttonlist[3].color = colour3;
+                    break;
+            }
+        }
+        StartCoroutine(ColorReset());
+    }
+
+    IEnumerator ColorReset()
+    {
+        yield return new WaitForSeconds(1);
+        foreach (Image image in buttonlist)
+        {
+            image.color = colour1;
         }
     }
 
@@ -82,7 +130,7 @@ public class GameManager : MonoBehaviour
     IEnumerator RestartGame()
     {
         player.enabled = false;
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(2);
         SceneManager.LoadScene("GameScene");
     }
 }
