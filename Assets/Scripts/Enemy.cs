@@ -47,7 +47,7 @@ public class Enemy : MonoBehaviour
                 {
                     if (toggle == false)
                     {
-                        Debug.Log("Depth Search Started");
+                        //Debug.Log("Depth Search Started");
                         searchNode = rootNode;
                         targetFound = false;
                         toggle = true; //DFS on
@@ -57,9 +57,9 @@ public class Enemy : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning($"{name} - No current node");
+                //Debug.LogWarning($"{name} - No current node");
             }
-            Debug.DrawRay(transform.position, currentDir, Color.cyan, 2f);
+            //Debug.DrawRay(transform.position, currentDir, Color.cyan, 2f);
         }
     }
 
@@ -71,7 +71,7 @@ public class Enemy : MonoBehaviour
             if (other.CompareTag("Player"))
             {
                 playerCaught = true;
-                Debug.Log("Player caught");
+                //Debug.Log("Player caught");
                 GameOverEvent.Invoke(); //invoke the game over event
             }
         }
@@ -105,13 +105,13 @@ public class Enemy : MonoBehaviour
             foreach (Node node in searchNode.Children)
             {
                 unsearchedNodes.Push(node);
-                Debug.DrawLine(searchNode.transform.position, node.transform.position, Color.yellow, 1f);
-                Debug.Log("Checking " + searchNode + " to " + node + " adding.");
+                //Debug.DrawLine(searchNode.transform.position, node.transform.position, Color.yellow, 1f);
+                //Debug.Log("Checking " + searchNode + " to " + node + " adding.");
                 yield return new WaitForSeconds(0.1f);
             }
             if ((searchNode == player.TargetNode) | (searchNode == player.CurrentNode)) //checks player
             {
-                Debug.Log("Player found at " + searchNode);
+                //Debug.Log("Player found at " + searchNode);
                 currentNode = searchNode;
                 DirectionSet();
                 targetFound = true;
@@ -120,10 +120,10 @@ public class Enemy : MonoBehaviour
             }
             else
             {
-                Debug.Log("No player at " + searchNode);
+                //Debug.Log("No player at " + searchNode);
                 searchNode = unsearchedNodes.Pop();
             }
         }
-        Debug.Log("Coroutine finish");
+        //Debug.Log("Coroutine finish");
     }
 }
